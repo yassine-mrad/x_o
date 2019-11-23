@@ -1,0 +1,130 @@
+import random
+k=1
+tab = []
+for i in range(3):
+    tab.append([k,k+1,k+2])
+    k+=3
+
+
+def isempty(tab,x):
+    if x == 1:
+        return tab[0][0] == "X" or tab[0][0] == "O"
+    elif x == 2:
+        return tab[0][1] == "X" or tab[0][1] == "O"
+    elif x == 3:
+        return  tab[0][2] == "X" or tab[0][2] == "O"
+    elif x == 4:
+        return tab[1][0] == "X" or tab[1][0] == "O"
+    elif x == 5:
+        return tab[1][1] == "X" or tab[1][1] == "O"
+    elif x == 6:
+        return tab[1][2] == "X" or tab[1][2] == "O"
+    elif x == 7:
+        return tab[2][0] == "X" or tab[2][0] == "O"
+    elif x == 8:
+        return tab[2][1] == "X" or tab[2][1] == "O"
+    elif x == 9:
+        return tab[2][2] == "X" or tab[2][2] == "O"
+    else:
+        return True
+
+def affectation(tab,x,mark):
+    if x == 1:
+         tab[0][0] = mark
+    elif x == 2:
+         tab[0][1] = mark
+    elif x == 3:
+          tab[0][2] = mark
+    elif x == 4:
+         tab[1][0] = mark
+    elif x == 5:
+         tab[1][1] = mark
+    elif x == 6:
+         tab[1][2] = mark
+    elif x == 7:
+         tab[2][0] = mark
+    elif x == 8:
+         tab[2][1] = mark
+    elif x == 9:
+         tab[2][2] = mark
+
+
+
+def gagner(tab,choi):
+    return ((tab[0][0] == choi and tab[0][1] == choi and tab[0][2] == choi) or
+            (tab[1][0] == choi and tab[1][1] == choi and tab[1][2] == choi) or
+            (tab[2][0] == choi and tab[2][1] == choi and tab[2][2] == choi) or
+            (tab[0][0] == choi and tab[1][0] == choi and tab[2][0] == choi) or
+            (tab[0][1] == choi and tab[1][1] == choi and tab[2][1] == choi) or
+            (tab[0][2] == choi and tab[1][2] == choi and tab[2][2] == choi) or
+            (tab[0][0] == choi and tab[1][1] == choi and tab[2][2] == choi) or
+            (tab[0][2] == choi and tab[1][1] == choi and tab[2][0] == choi))
+def restnull(tab):
+    for i in range(3):
+        for j in range(3):
+            if tab[i][j] != "X" and tab[i][j] != "O":
+                return False
+    return True
+
+
+liste = [1,2,3,4,5,6,7,8,9]
+atliste = False
+atliste2 = False
+position =-1
+position2 =-1
+choix=''
+liste1 = [1,2,3,4,5,6,7,8,9]
+
+
+while not choix == "X" and not choix == "O":
+    choix = input(' Do you want to be X or O ? ').upper()
+
+
+if choix == "X":
+    autchoix = "O"
+else:
+    autchoix = "X"
+
+findejeu = False
+
+for j in range(3):
+    print(tab[j], end="\n")
+while True :
+
+
+    while not atliste or  isempty(tab,position):
+        position = int(input('Choose your next position: (1-9) '))
+        atliste=position in liste
+
+    affectation(tab,position,choix)
+    findejeu=  gagner(tab,choix)
+
+    liste1.remove(position)
+    for j in range(3):
+        print(tab[j], end="\n")
+    print("************************")
+    if (findejeu):
+        break
+
+    while not atliste2 or  isempty(tab,position2):
+        position2 = random.choice(liste)
+        atliste2=position2 in liste1
+
+    affectation(tab,position2,autchoix)
+
+    findejeu1=  gagner(tab,autchoix)
+
+
+    if (findejeu1):
+        break
+    if restnull(tab):
+        break
+    liste1.remove(position2)
+    for j in range(3):
+        print(tab[j], end="\n")
+if (findejeu):
+    print("-------------------------------       Bravooooo vous avez gagner   -----------------------------------------")
+elif (findejeu1):
+    print("------------------------------------     vous avez perdu :(    --------------------------------------------")
+else:
+    print("--------------------------------------       score nul         ---------------------------------------------")
